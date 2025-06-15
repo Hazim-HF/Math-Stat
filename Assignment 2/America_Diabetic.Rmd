@@ -1,0 +1,74 @@
+---
+title: "Diabetic"
+author: "Hazim Fitri"
+output: pdf_document
+---
+
+# Loading Library
+
+```{r, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+```
+
+# Loading Data
+
+```{r load_data}
+# Loading data
+data = read.csv('diabetes_dataset.csv')
+```
+
+# Exploratory Data Analysis (EDA)
+
+```{r EDA}
+# Checking the structure of the data
+str(data)
+
+# Checking the summary of the data
+summary(data)
+```
+
+```{r}
+# Changing the data type
+df = data %>% 
+  mutate(Gender = as.factor(Gender)) %>%
+  mutate(Ethnicity = as.factor(Ethnicity)) %>%
+  mutate(Smoking_Status = as.factor(Smoking_Status)) %>%
+  mutate(Physical_Activity_Level = as.factor(Physical_Activity_Level)) %>%
+  mutate(Stress_Level = as.factor(Stress_Level))
+
+str(df)
+```
+
+```{r}
+pairs(df)
+```
+
+```{r}
+
+```
+
+```{r}
+hist(df$Price)
+```
+
+```{r}
+boxplot(df$ScreenSize)
+```
+
+# Modeling
+
+```{r}
+model = lm(Price ~ Brand+RAM+ScreenSize+BatteryLife+Weight+CPU+GPU+Storage+Resolution, data = df)
+summary(model)
+```
+
+# Assumption
+
+```{r}
+plot(model)
+```
+
+```{r}
+vif(model)
+```

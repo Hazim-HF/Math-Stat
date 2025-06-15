@@ -1,0 +1,46 @@
+---
+title: "Hypothesis Testing"
+author: "Hazim Fitri"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 6
+geometry: margin=0.5cm
+---
+
+Objective: To test whether a sample data support or reject a claim regarding a population
+
+**Error**
+
+Type I : We reject a true claim
+
+Type II : We support a false claim
+
+𝞪 = P(Type I error) = P(Reject H\_{0} \| H\_{0} is true)
+
+𝞪 and 𝛽 has inverse relationship
+
+We can reduce both 𝞪 and 𝛽 by increasing sample size
+
+```{r}
+library(TeachingDemos)
+z.test(48.6, mu = 46, stdev = 4.2, n = 30, alternative = 'greater')
+# p-value < 0.05, we reject H_{0}, there is enough evidence to reject the claim
+```
+
+A researcher wishes to test the claim that the average cost of tuition and fees at a four-year public college is **greater than** **\$5700**. She selects a random **sample of 9** four-year public colleges and finds the **mean to be \$5950**. The population **standard deviation is assumed to be \$659**. Is there evidence to support the claim at ? Use . 1.645
+
+```{r}
+# H_{0} : mu <= 5700
+# H_{1} : mu > 5700
+z.test(5700, mu = 5950, stdev = 659, n = 9)
+# p-value > 0.05, we failed to reject H_{0}, there is not enough evidence to support the claim that the average cost of tuition and fees at a four-year public college is greater than $5700
+```
+
+A researcher claims that the average wind speed in a certain city is **8 miles per hour**. A **sample of 32** days has an average wind speed of **8.2 miles per hour** and a **standard deviation 0.6 mile per hour**. At **𝞪 = 0.05**, is there enough evidence to reject the claim? Use the p–value approach
+
+```{r}
+# H_{0} : mu = 8
+# H_{1} : mu != 8
+t.test(x = 8, mu = 8, sd = 0.6, n = 32, alternative = "two.sided")
+```

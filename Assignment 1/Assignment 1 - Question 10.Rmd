@@ -1,0 +1,59 @@
+---
+title: "Math Stat Assignment"
+author: "Hazim Fitri"
+output: pdf_document
+---
+
+# Question 10.b
+
+```{r}
+gpa_univ_a <- c(1.33, 1.52, 2.02, 2.05, 2.14, 2.29, 2.36, 2.42, 2.48, 2.62, 2.71, 
+                2.81, 2.81, 2.82, 2.96, 2.99, 3.11, 3.12, 3.12, 3.18, 3.21, 3.25, 
+                3.37, 3.58, 3.70)
+gpa_univ_b <- c(1.57, 1.97, 2.00, 2.06, 2.07, 2.11, 2.48, 2.51, 2.64, 2.75, 2.77, 
+                2.82, 3.04,3.08, 3.11, 3.15, 3.25, 3.27, 3.27, 3.36, 3.45, 3.45, 
+                3.49, 3.74, 3.80)
+```
+
+```{r summary-gpa, echo = TRUE}
+print("Summary GPA University A")
+summary(gpa_univ_a)
+print("Summary GPA University B")
+summary(gpa_univ_b)
+```
+
+```{r}
+sd(gpa_univ_a)
+```
+
+```{r}
+var(gpa_univ_a)
+```
+
+```{r}
+sd(gpa_univ_b)
+```
+
+```{r}
+var(gpa_univ_b)
+```
+
+**From the summary above, we can derive some descriptive statistics. Firstly, we can see that the mean for GPA of students from University A is 2.719 while the mean for GPA of students from University B is 2.848. This shows that on average students from University A has a slightly higher GPA than students from University B.**
+
+**Next, the variance and standard deviation for mean GPA of University B are also higher than the variance and standard deviation for mean GPA of University A. This indicates that GPA variability in University B is slightly higher than University A.**
+
+```{r}
+par(mfrow=c(1,2))
+hist(gpa_univ_a, breaks = 10, main = 'Histogram of GPA of Uni A', xlab = 'GPA')
+hist(gpa_univ_b, breaks = 10, main = 'Histogram of GPA of Uni B', xlab = 'GPA')
+```
+
+**From the histogram above, we can say that both Universities has a roughly symmetrical distribution for their students' GPA but University B's GPA distribution is more slightly skew to the left compared to the distribution of students GPA in University A.**
+
+```{r}
+par(mfrow=c(1,2))
+boxplot(gpa_univ_a, horizontal = T, main = "GPA University A")
+boxplot(gpa_univ_b, horizontal = T, main = "GPA University B")
+```
+
+**From the boxplot above, we can see that the median of GPA of students from University A is lower that the median of GPA of students from University B. Next, both plots show a slightly longer tail on the left meaning that the distribution is slightly skew to the left. It can be interpreted as GPA of students from University B are slightly shifted towards higher values compared to University A. There are also no outliers that can be observed form the boxplot.**

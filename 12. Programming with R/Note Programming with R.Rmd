@@ -1,0 +1,292 @@
+---
+title: "Programming with R"
+author: "Hazim Fitri"
+date: "2025-01-19"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 6
+geometry: margin=0.5cm
+---
+
+# if else Statement
+
+```{r if_statement}
+x = 0
+if (x>=0) {
+  print('x is positive')
+}
+```
+
+```{r ifelse_statement}
+x = -5
+if(x >= 0) {
+  print('x is positive')
+} else {
+  print("x is negative")
+}
+```
+
+```{r nested_if_statement}
+x = 0
+if (x > 0) {
+  print('x is positive')
+} else if (x < 0) {
+  print('x is negative')
+} else if (x == 0){
+  print('x is zero')
+}
+
+```
+
+# ifelse Function
+
+```{r ifelse_function}
+x = c(-3, 0, 3)
+ifelse(x >= 0, 'x is positive', 'x is negative')
+```
+
+# Switch Function
+
+```{r switch_function}
+x = 3
+switch(x, 'red', 'green', 'blue')
+```
+
+# Loop
+
+## For Loop
+
+```{r for_loop}
+x = 1
+for (i in 1:3) {
+  x = x + 1
+}
+x
+```
+
+```{r}
+for (i in 1:4) {
+  x = x + 2
+}
+x
+```
+
+## While Loop
+
+```{r while_loop}
+while (x > 0) {
+  x = x - 5
+}
+x
+```
+
+## Break Statement
+
+Break statement will break the loop
+
+```{r break_statement}
+x = 1:5
+for (y in x) {
+  if (y == 3) {
+    break
+  }
+  print(y)
+}
+```
+
+## Next Statement
+
+Skip current iteration without breaking the loop
+
+```{r next_statement}
+x = 1:5
+for (y in x) {
+  if (y == 3) {
+    next
+  }
+  print(y)
+}
+```
+
+# Function
+
+local environment -\> value that only exist within a function
+
+global environment -\> value that only exist outside a function
+
+return() function -\> to pass value into global environment
+
+```{r add_function}
+myfunction = function (x,y) {
+  a = x + y
+  return(a)
+}
+
+myfunction(4,5)
+```
+
+```{r square_function}
+square.it = function (x) {
+  b = x * x
+  return(b)
+}
+square.it(8)
+```
+
+```{r}
+my.fun<-function(X.matrix, y.vec, z.scalar){
+ #use previous function
+ sq.scalar<-square.it(z.scalar)
+ mult<-X.matrix%*%y.vec
+ Final<-mult*sq.scalar
+ return(Final)
+ }
+ my.mat<-cbind(c(1,2,3),c(3,4,5))
+ my.vec<-c(5,6)
+ my.fun(X.matrix=my.mat, y.vec=my.vec, z.scalar=9)
+```
+
+# Exercise
+
+## Question 1
+
+Write a function that computes the coefficient of variation and plot the histogram of a vector
+
+```{r}
+mycoef = function (x) {
+  z = sd(x) / mean(x) * 100
+  hist(x)
+  return(z)
+}
+j = rnorm(100)
+mycoef(j)
+```
+
+## Question 2
+
+Suppose a researcher obtained the coordinates of n points and wish to find the maximum distance between two points from all the different pairs of points possible, produce an R function which helps to find the maximum distance between the coordinates of one particular point, (𝑥𝑖, 𝑦𝑖), with the coordinates of the other (n–1) points. The distance, d, between coordinates of points i and j, can be calculated as follows:
+
+```{r}
+distance = function (x1, y1, x2, y2) {
+  d = sqrt(((x1-x2) * (x1-x2)) + ((y1-y2) * (y1-y2)))
+  return(d)
+}
+distance(3,4,5,6)
+```
+
+```{r blackbox_answer2}
+# Function to calculate the maximum distance
+max_distance <- function(points, point_index) {
+  n <- nrow(points)
+  distances <- numeric(n - 1)
+  
+  # Get the coordinates of the reference point
+  ref_point <- points[point_index, ]
+  
+  # Loop through each point to calculate distance
+  count <- 1
+  for (i in 1:n) {
+    if (i != point_index) {
+      x_diff <- points[i, 1] - ref_point[1]
+      y_diff <- points[i, 2] - ref_point[2]
+      distances[count] <- sqrt(x_diff^2 + y_diff^2)
+      count <- count + 1
+    }
+  }
+  
+  # Return the maximum distance
+  return(max(distances))
+}
+
+# Example usage
+points <- matrix(c(1, 2,
+                   3, 4,
+                   5, 6,
+                   7, 8), byrow = TRUE, ncol = 2)
+
+point_index <- 2  # Example, getting the max distance for the second point
+
+max_dist <- max_distance(points, point_index)
+
+print(paste("Maximum Distance:", max_dist))
+
+```
+
+## Question 3
+
+Mann-Kendall test is a statistical test used to determine the existence of monotonic trend in a data set X
+
+i)  Write an R function that computes the test statistic, SMK, of the Mann-Kendall test for a data set X of size n which is given as follows:
+
+```{r}
+x = c(1,2,3,4,-9,0)
+sign(x)
+```
+
+```{r blackbox_answer}
+# Function to compute the Mann-Kendall test statistic
+mann_kendall_statistic <- function(X) {
+  n <- length(X)  # Size of the dataset
+  S <- 0          # Initialize the test statistic
+  
+  # Loop through all pairs of observations
+  for (i in 1:(n - 1)) {
+    for (j in (i + 1):n) {
+      if (X[j] > X[i]) {
+        S <- S + 1  # Count the number of increasing pairs
+      } else if (X[j] < X[i]) {
+        S <- S - 1  # Count the number of decreasing pairs
+      }
+    }
+  }
+  
+  return(S)  # Return the test statistic
+}
+
+# Example usage
+data <- c(3, 1, 4, 1, 5, 9, 2, 6)
+S <- mann_kendall_statistic(data)
+print(S)
+
+```
+
+ii) If X is a series with no tie values, then the standardized test statistic, ZMK, is written as
+
+```{r}
+# Function to compute the Mann-Kendall test statistic and standardized statistic, ZMK
+mann_kendall_test <- function(X) {
+  n <- length(X)
+  S <- 0
+
+  # Loop to calculate the test statistic
+  for (i in 1:(n - 1)) {
+    for (j in (i + 1):n) {
+      S <- S + sign(X[j] - X[i])
+    }
+  }
+  
+  # Adjusting the variance of S
+  var_S <- (n * (n - 1) * (2 * n + 5)) / 18
+  
+  # Computing the standardized test statistic, ZMK
+  if (S > 0) {
+    ZMK <- (S - 1) / sqrt(var_S)
+  } else if (S < 0) {
+    ZMK <- (S + 1) / sqrt(var_S)
+  } else {
+    ZMK <- 0
+  }
+  
+  return(list(SMK = S, ZMK = ZMK))
+}
+
+# Example usage
+data_set_X <- c(3, 2, 5, 4, 6, 7, 2, 8, 9, 1)
+
+result <- mann_kendall_test(data_set_X)
+
+print(paste("Mann-Kendall Test Statistic (SMK):", result$SMK))
+print(paste("Standardized Test Statistic (ZMK):", result$ZMK))
+
+```

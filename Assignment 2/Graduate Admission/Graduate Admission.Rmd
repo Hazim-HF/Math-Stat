@@ -1,0 +1,173 @@
+---
+title: "Admission"
+author: "Hazim Fitri"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 6
+geometry: margin=0.5cm
+---
+
+# Load Library
+
+```{r}
+library(dplyr)
+library(mice)
+```
+
+# Load Data
+
+```{r}
+setwd('C:\\Users\\hazim\\OneDrive - Universiti Kebangsaan Malaysia\\Math-Stat\\Assignment 2\\Graduate Admission')
+
+getwd()
+
+data = read.csv('Admission_Predict_Ver1.1.csv')
+```
+
+# Exploratory Data Analysis (EDA)
+
+#### Structure of the data
+
+```{r}
+str(data)
+```
+
+#### Summary of the data
+
+```{r}
+summary(data)
+```
+
+#### Top 6 data
+
+```{r}
+head(data)
+```
+
+#### Check for missing data
+
+```{r}
+md.pattern(df)
+```
+
+#### Correlogram of the data
+
+```{r}
+par(bg = "#EEEEEE")
+num_df = df %>% select(-Research)
+corrgram(num_df, order = FALSE, lower.panel = panel.pts, upper.panel = panel.cor,
+         main = 'Correlogram of Graduate Admission')
+```
+
+#### Scatter plot (CGPA VS Chance of Admit)
+
+```{r}
+par(bg = "#EEEEEE")
+plot(df$CGPA, df$Chance.of.Admit, main = 'CGPA vs. Chance of Admit', 
+     xlab = 'CGPA', ylab = 'Chance of Admit', col = '#00ADB5')
+```
+
+#### Boxplot of impact of reseach expericne on admission
+
+```{r}
+par(bg = "#EEEEEE")
+df2 = df %>%
+  mutate(Research = factor(Research, labels = c('No', 'Yes')))
+boxplot(df2$Chance.of.Admit~df2$Research, col = '#00ADB5', 
+        xlab = 'Research Experience', ylab = 'Chance of Admit',
+        main = 'Impact of Research Experience on Admission')
+```
+
+#### Histogram of the dependent variable
+
+```{r}
+par(bg = "#EEEEEE")
+hist(df$Chance.of.Admit, col = '#00ADB5', xlab = 'Chance of Admit', 
+     main = 'Histogram of Chance of Admit')
+```
+
+#### Barplot of the University Rating
+
+```{r}
+uni_rate = table(df$University.Rating)
+par(bg = "#EEEEEE")
+barplot(uni_rate, 
+        col = '#00ADB5',
+        main = "University Rating",
+        xlab = "University Rating", 
+        ylab = "Count")
+```
+
+#### Barplot of the research status
+
+```{r}
+research = table(df$Research)
+par(bg = "#EEEEEE")
+barplot(research,
+        col = '#00ADB5', 
+        ylab = 'Research Status',
+        xlab = 'Count',
+        main = 'Research Status')
+```
+
+# Data Pre-processing
+
+Convert Research column to factor as it is a categorical data
+
+```{r}
+df = data[,-1] %>%
+  mutate(Research = as.factor(Research))
+```
+
+Review the structure to make sure Research has been converted to factor
+
+```{r}
+str(df)
+```
+
+# Modelling
+
+#### Fit data into linear regression model
+
+```{r}
+model = lm(Chance.of.Admit~.,
+           data = df)
+
+summary(model)
+```
+
+#### Plot model
+
+```{r}
+par(mfrow=c(2,2))
+plot(model)
+```
+
+#### Correlation graph for significant variable
+
+```{r}
+par(bg = "#EEEEEE")
+num_df = df %>% select(-Research, -SOP, -University.Rating0)
+pairs(num_df, col = '#00ADB5', main = 'Correlation')
+```
+
+```{r}
+library(car)
+vif(model)
+```
+
+#### linear regression plot
+
+```{r}
+par(bg = "#EEEEEE")
+
+df$Predicted <- predict(model, df)
+
+# Plot Actual vs. Predicted
+plot(df$Chance.of.Admit, df$Predicted, 
+     xlab = "Actual Chance of Admit", ylab = "Predicted Chance of Admit",
+     main = "Actual vs. Predicted Values", col = "#00ADB5", pch = 16)
+abline(0, 1, col = "red", lwd = 3)
+
+```

@@ -1,0 +1,85 @@
+---
+title: "Fish Market"
+output: pdf_document
+---
+
+# Loading Library
+
+```{r, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(car)
+```
+
+# Loading Data
+
+```{r load_data}
+# Loading data
+data = read.csv('Fish.csv')
+```
+
+# Exploratory Data Analysis (EDA)
+
+```{r EDA}
+# Checking the structure of the data
+str(data)
+
+# Checking the summary of the data
+summary(data)
+
+# Renaming the column
+
+```
+
+```{r}
+# Changing the data type
+df = data %>%
+  mutate(Species = as.factor(data$Species))
+```
+
+# Assumption
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+# Modeling
+
+```{r}
+model = lm(Price ~ Brand+RAM+ScreenSize+BatteryLife+Weight+CPU+GPU+Storage+Resolution, data = df)
+summary(model)
+```
+
+```{r}
+plot(model)
+```
+
+```{r}
+vif(model)
+```
+
+# Assumption
+
+```{r}
+pairs(select(df, -Species))
+```
+
+```{r}
+qqline(df)
+```

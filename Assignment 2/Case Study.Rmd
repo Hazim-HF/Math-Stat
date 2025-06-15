@@ -1,0 +1,186 @@
+---
+title: "Case Study"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 6
+geometry: margin=0.5cm
+---
+
+# Loading Library
+
+```{r, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(car)
+```
+
+# Loading Data
+
+```{r load_data}
+# Loading data
+data = read.csv('laptop_prices.csv')
+```
+
+# Exploratory Data Analysis (EDA)
+
+```{r EDA}
+# Checking the structure of the data
+str(data)
+
+# Checking the summary of the data
+summary(data)
+
+# Renaming the column
+df = data %>%
+  rename(RAM=RAM..GB., 
+         CPU=Processor,
+         ScreenSize=Screen.Size..inch.,
+         BatteryLife=Battery.Life..hours.,
+         Weight=Weight..kg.,
+         OS=Operating.System,
+         Price=Price....)
+```
+
+```{r}
+df = df %>% 
+  mutate(Price = log(df$Price)) %>%
+  select(RAM, ScreenSize, BatteryLife, Weight)
+pairs(df)
+```
+
+```{r}
+# Changing the data type
+# df = df %>%
+#   mutate(Brand = as.factor(df$Brand)) %>%
+#   mutate(CPU = as.numeric(as.factor(df$CPU))) %>%
+#   mutate(Storage = as.numeric(as.factor(df$Storage))) %>%
+#   mutate(GPU = as.numeric(as.factor(df$GPU))) %>%
+#   mutate(Resolution = as.numeric(as.factor(df$Resolution))) %>%
+#   mutate(OS = as.factor(df$OS))
+```
+
+# Assumption
+
+```{r}
+sum(duplicated(df))
+```
+
+```{r}
+ggplot(df, aes(x=Brand)) + 
+  geom_bar() +
+  ggtitle('Number of Laptop for each Brand') + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14)) +
+  theme_minimal()
+```
+
+```{r}
+hist(df$Price, xlab = "Laptop's Price", main = "Histogram of Laptop's Price")
+```
+
+```{r}
+hist(df$Price, main = 'Histogram of Laptop Prices', xlab = 'Price', ylab = 'Count')
+
+```
+
+```{r}
+ggplot(df, aes(x = Brand, y = Price)) + 
+  geom_boxplot() + 
+  labs(title = "Laptop Price by Brand", x = "Brand", y = "Price")
+```
+
+# Modeling
+
+```{r}
+model = lm(Price ~ Brand+RAM+ScreenSize+BatteryLife+Weight+CPU+GPU+Storage+Resolution, data = df)
+summary(model)
+```
+
+```{r}
+plot(model)
+```
+
+```{r}
+vif(model)
+```
+
+# Assumption
+
+```{r}
+pairs(df[c('Price', 'Weight', 'RAM', 'ScreenSize', 'BatteryLife')])
+```
+
+```{r}
+qqnorm(model$residuals,
+       main = 'Linearity')
+qqline(model$residuals)
+```
+
+```{r}
+hist(model$residuals,
+     main = 'Normality', 
+     xlab = 'Residuals')
+```
+
+```{r}
+plot(model$fitted.values, model$residuals,
+     main = 'Equal Variance', xlab = 'Fitted Values', ylab = 'Residuals')
+abline(0, 0)
+```
+
+# Transformation
+
+```{r}
+df$log.price = log(df$Price)
+model2 = lm(log.price ~ Brand+RAM+ScreenSize+BatteryLife+Weight+CPU+GPU+Storage+Resolution, 
+            data = df)
+summary(model2)
+```
+
+```{r}
+qqnorm(model2$residuals,
+       main = 'Linearity')
+qqline(model2$residuals)
+```
+
+```{r}
+plot(model2$fitted.values, model2$residuals,
+     main = 'Equal Variance', xlab = 'Fitted Values', ylab = 'Residuals')
+abline(0, 0)
+```
+
+```{r}
+hist(model2$residuals,
+     main = 'Normality', 
+     xlab = 'Residuals')
+```
+
+```{r}
+par(mfrow=c(1,2))
+hist(df$Price, main = "Price")
+hist(df$log.price, main = "Log(Price)")
+```
+
+```{r}
+par(mfrow=c(1,2))
+boxplot(df$Price, main = "Price")
+boxplot(df$log.price, main = "Log(Price)")
+```
+
+```{r}
+x4 <- c(1:20)
+y4 <- c(0.4, 2.2, 2.2, 5.6, 5.3, 5.2, 7.5, 8.7,
+        9.6, 9.7, 12.5, 12.4, 12.4, 12.8, 16.1,
+        16.0, 17.0, 11.5, 19.8, 20.6)
+plot(x4, y4, col = 'darkblue', pch = 21, bg = 'darkblue');abline(lm(y4~x4))
+```
+
+```{r}
+w_out = lm(y4 ~ x4)
+summary(w_out)
+wo_out = lm(y4[-18]~x4[-18])
+summary(wo_out)
+par(mfrow=c(1,2))
+plot(w_out)
+plot(wo_out)
+```

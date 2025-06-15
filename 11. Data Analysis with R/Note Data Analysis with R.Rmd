@@ -1,0 +1,328 @@
+---
+title: "Data Analysis with R"
+author: "Hazim Fitri"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 6
+geometry: margin=0.5cm
+---
+
+# Hypothesis Testing
+
+```{r}
+library(TeachingDemos) # for z.test and t.test
+library(lattice) # for ANOVA
+```
+
+## Z-test
+
+Perform a test for a population mean with known variance.
+
+-   **Null Hypothesis (H₀)**: The sample mean is equal to the population mean (μ = μ₀).
+
+-   **Alternative Hypothesis (H₁)**: The sample mean is not equal to the population mean (μ ≠ μ₀).
+
+    -   *Two-tailed*: μ ≠ μ₀
+
+    -   *One-tailed (right)*: μ \> μ₀
+
+    -   *One-tailed (left)*: μ \< μ₀
+
+```{r}
+x = rnorm(100, mean = 2, sd = 0.5)
+z.test(x, mu = 2, stdev = 0.5, alternative = 'two.sided')
+```
+
+## One Sample t-test
+
+Perform a test for a population mean of a small (normally distributed) sample.
+
+-   **Null Hypothesis (H₀)**: The sample mean is equal to the population mean (μ = μ₀).
+
+-   **Alternative Hypothesis (H₁)**: The sample mean is not equal to the population mean (μ ≠ μ₀).
+
+    -   *Two-tailed*: μ ≠ μ₀
+
+    -   *One-tailed (right)*: μ \> μ₀
+
+    -   *One-tailed (left)*: μ \< μ₀
+
+```{r}
+x = rnorm(20, mean = 1, sd = 0.5)
+t.test(x, mu = 2, alternative = 'less')
+```
+
+## Two Sample t-test
+
+Perform a test for the difference of two population means that is **independent** to each other with small (normally distributed) samples
+
+-   **H₀**: The means of the two independent groups are equal (μ₁ = μ₂).
+
+-   **H₁**: The means of the two groups are not equal (μ₁ ≠ μ₂).
+
+    -   *Two-tailed*: μ₁ ≠ μ₂
+
+    -   *One-tailed*: μ₁ \> μ₂ or μ₁ \< μ₂
+
+```{r}
+x = c(1.3,1.5,1.2,1.7,1.3)
+y = c(1.6,1.7,1.8,1.6,1.5)
+t.test(x,y,mu=0,alternative="less",var.equal=TRUE)
+```
+
+## Paired t-test
+
+Perform a test for the difference of two population means for **two paired samples** (differences normally distributed.
+
+-   **H₀**: The mean difference between paired samples is zero (μd = 0).
+
+-   **H₁**: The mean difference between paired samples is not zero (μd ≠ 0).
+
+    -   *Two-tailed*: μd ≠ 0
+
+    -   *One-tailed*: μd \> 0 or μd \< 0
+
+```{r}
+x = c(1.3,1.5, 1.2, 1.7, 1.3)
+y = c(1.6,1.7,1.8,1.6,1.5)
+t.test(x, y, mu = 0, alternative = 'less', var.equal = TRUE, paired = TRUE)
+```
+
+## ANOVA
+
+1.  A test used to determine differences between research results from three or more unrelated samples/groups.
+
+2.  Want to study the effect of one or more qualitative variable on a quantitative outcome.
+
+3.  Qualitative variables -\> factors.
+
+4.  Assumptions;
+
+    -   Normality
+
+    -   Equal Variance
+
+    -   Independent Samples
+
+$$
+H_0:\mu_1=\mu_2=~...~=\mu_k
+$$
+
+$$
+H_1:\mu_i\not=\mu_j,~(for~some~i~and~j)
+$$
+
+# One-way ANOVA
+
+-   **H₀**: All group means are equal (μ₁ = μ₂ = μ₃ = ... = μk).
+
+-   **H₁**: At least one group mean is different from the others.
+
+```{r}
+one.way = aov(yield ~ variety*site, data = barley)
+summary(one.way)
+```
+
+## Two-way ANOVA
+
+-   **H₀ (Main Effects)**: There is no difference in means for each factor.
+
+-   **H₀ (Interaction Effect)**: There is no interaction between the two factors.
+
+-   **H₁**: At least one factor or interaction has a significant effect.
+
+```{r}
+two.way = aov(yield ~ variety+site, data = barley)
+summary(two.way)
+```
+
+## Two-way ANOVA with interaction effect
+
+```{r}
+interaction = aov(yield ~ variety * site, data = barley)
+summary(interaction)
+```
+
+## One Sample Test for Proportions
+
+Test for a population proportion for a large sample
+
+prop.test(x, n, p, alternative = c('two.sided', 'less', 'greater'), conf.level, correct)
+
+x = number of success
+
+n = number of trials
+
+p = sucess probability; default p = NULL
+
+-   **H₀**: The population proportion is equal to a specified value (p = p₀).
+
+-   **H₁**: The population proportion is not equal to the specified value (p ≠ p₀).
+
+```{r}
+prop.test(52, 100, p = 0.4, alternative = 'greater', correct = F)
+```
+
+## Two Sample Test for Proportions
+
+Test for a difference in population proportions for two independent large samples
+
+```{r}
+prop.test(c(132,135), c(400, 390), alternative = 'two.sided', correct = F)
+```
+
+## Chi-Square Test for Variance
+
+**Test for Independence**:
+
+-   **H₀**: The two variables are independent (no association).
+
+-   **H₁**: The two variables are not independent (there is an association).
+
+**Test for Goodness of Fit**:
+
+-   **H₀**: The observed frequencies fit the expected distribution.
+
+-   **H₁**: The observed frequencies do not fit the expected distribution.
+
+```{r}
+library(EnvStats)
+data = c(12.43,11.71,14.41,11.05,9.53,11.66,9.33,11.71,14.35,13.81)
+varTest(data, alternative = 'greater', sigma.squared = 2.25)
+```
+
+## Equality of Variance Test
+
+Test for the equality of variance for samples from two normal populations
+
+-   **H₀**: The variances of all groups are equal.
+
+-   **H₁**: At least one group has a different variance.
+
+```{r}
+x = c(1.3,1.5,1.2,1.7,1.3)
+y = c(1.6,1.7,1.8,1.6,1.5)
+var.test(x,y, alternative = 'two.sided')
+```
+
+# Linear Regression
+
+-   To study the relationship between response and predictor variable
+
+-   Forecast value of variable interest
+
+Process building model
+
+1.  
+
+```{r}
+eruption.lm = lm(eruptions~waiting, data = faithful)
+summary(eruption.lm)
+```
+
+```{r}
+plot(eruptions~waiting, data = faithful, main = 'Plot of Y vs X')
+abline(eruption.lm, col = 'red')
+```
+
+```{r}
+pairs(~stack.loss + Air.Flow + Water.Temp + Acid.Conc., data = stackloss)
+```
+
+```{r}
+stackloss.lm = lm(stack.loss ~ Air.Flow + Water.Temp + Acid.Conc., 
+                  data = stackloss)
+summary(stackloss.lm)
+```
+
+## Dummy-Variable Model
+
+```{r}
+class(mtcars$cyl)
+mtcars$CYL = as.factor(mtcars$cyl)
+mt.lm = lm(mpg~CYL, data = mtcars)
+summary(mt.lm)
+```
+
+# Exercise
+
+## Question 1
+
+A fisherman breeds red tilapias in a pond in Sungai Terengganu. He claims that the mean weight of the red tilapias exceeds 1.2 kg. Assume that the weight of the population of red tilapias is approximated normal. A random sample of 5 red tilapias was taken from his pond, and their weights were 1.1, 1.2, 1.3, 1.2 and 1.4 kg, respectively. Test at 𝛼 = 0.05 whether the fisherman’s claim is reasonable.
+
+```{r}
+x = c(1.1, 1.2, 1.3, 1.2, 1.4)
+tilapia = t.test(x, mu = 1.2, alternative = 'greater')
+tilapia
+
+# H_{0}: mean weight <= 1.2kg
+# H_{1}: mean weight > 1.2kg
+# Since p-value > 0.05, We failed to reject H_{0}, We do not have enough evidence to accept the fisherman's claim
+```
+
+## Question 2
+
+For 80 randomly selected men, 30 regularly bicycled to campus; while for 100 randomly selected women, 20 regularly bicycled to campus. Test
+
+-   𝐻0: 𝑝1 = 𝑝2
+
+-   H1: 𝑝1 \> 𝑝2
+
+    at 0.05 level of significance.
+
+```{r}
+# H_{0}: p1 = p2
+# H_{1}: p1 > p2
+
+prop.test(c(30,20), c(80,100), alternative = 'greater', correct = F)
+
+# p-value < 0.05, We reject H_{0}. Proportion of men bicycled to campus greater than proportion of women bicycled to campus
+```
+
+## Question 3
+
+The PlantGrowth dataset are results from an experiment on the growth of plants with different treatments. A researcher wants to know if the average weights of the plants in the three experimental circumstances vary significantly. Perform a test to find out the answer for him.
+
+```{r}
+data("PlantGrowth")
+str(PlantGrowth)
+unique(PlantGrowth$group)
+
+# H_{0}: mean_ctrl = mean_trt1 = mean_trt2
+# H_{1}: mean_i != mean_j, for some i and j
+
+res.aov = aov(weight~group, data = PlantGrowth)
+summary(res.aov)
+
+# p-value < 0.05, we reject H_{0}, At least one pair of means are not equal
+```
+
+## Question 4
+
+Based on the Salaries dataset in the car package, build a simple linear model for the salaries of professors against the years of service, i.e salary as the dependent variable and yrs.service as the independent variable. Then build a multiple linear regression with an additional independent variable of yrs.since.phd and a dummy variable model with both yrs.service and rank as independent variables. Write down the equation for the 3 models and compare them.
+
+```{r}
+# To view list of dataset in a desired package
+data(package='carData')
+library(carData)
+data(Salaries)
+str(Salaries)
+head(Salaries)
+unique(Salaries$rank)
+unique(Salaries$discipline)
+
+salary.slr = lm(salary ~ yrs.service, data = Salaries)
+summary(salary.slr)
+
+# p-value < 0.05, the model is significant, 
+# salary = 99974.7 + 779.6*yrs.service + error
+# R^2 = 0.1121
+
+salary.mlr = lm(salary ~ yrs.service + yrs.since.phd + rank, data = Salaries)
+summary(salary.mlr)
+
+# p-value < 0.05, the model is significant
+# salary = 80281.3 - 358.3*yrs.service + 263.5*yrs.since.phd + 13805.9*rankAssocProf + 47208.2*rankProf + error
+# R^2 = 
+```

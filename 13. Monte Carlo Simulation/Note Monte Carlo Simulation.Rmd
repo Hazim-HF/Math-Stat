@@ -1,0 +1,166 @@
+---
+title: "Monte Carlo Simulation"
+author: "Hazim Fitri"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 6
+geometry: margin=0.5cm
+---
+
+# Normal Distribution
+
+Simulate 100 values from a normal distribution with a mean of 10 and standard deviation of 4
+
+```{r}
+rnorm(100, mean = 10, sd = 4)
+```
+
+# Binomial Distribution
+
+Simulate 6 coin flip using a fair coin with 1= head, 0 = tail
+
+```{r}
+rbinom(6, size = 1, prob = 0.5)
+```
+
+# Uniform Distribution
+
+Simulate 50 test scores of students where any score between 0 and 100 is possible
+
+```{r}
+runif(n = 50, min = 0, max = 100)
+```
+
+| Distribution | Col2  | Col3  | Col4  | Col5  |
+|--------------|-------|-------|-------|-------|
+| Beta         | pbeta | qbeta | dbeta | rbeta |
+| Binomial     |       |       |       |       |
+|              |       |       |       |       |
+|              |       |       |       |       |
+|              |       |       |       |       |
+|              |       |       |       |       |
+|              |       |       |       |       |
+|              |       |       |       |       |
+|              |       |       |       |       |
+|              |       |       |       |       |
+|              |       |       |       |       |
+|              |       |       |       |       |
+
+: Distribution
+
+# Examples
+
+Assume the true underlying distribution of an exam scores for a given year is Normally distributed with mean 896 and standard deviation of 174. Generate 1000 Monte Carlo samples of size 100 and estimate the mean, median, standard deviation and range for each sample. Lastly, plot the histograms for all the Monte Carlo estimates.
+
+```{r}
+x = matrix(rnorm(n = 1000 * 100, mean = 896, sd = 174), nrow = 1000)
+
+means = apply(x, MARGIN = 1, FUN = mean)
+sdevs = apply(x, MARGIN = 1, FUN = sd)
+medians = apply(x, MARGIN = 1, FUN = median)
+ranges = apply(x, MARGIN = 1, FUN = range)
+
+par(mfrow=c(2,2))
+hist(means, xlab = 'Means', ylab = 'Frequency', main = 'Monte Carlo Means', cex.axis = 1.5, cex.lab = 1.6, cex.main = 1.6)
+hist(sdevs, xlab = 'Std.Deviation', ylab = 'Frequency', main = 'Monte Carlo Std.Deviation', cex.axis = 1.5, 
+     cex.lab = 1.6, cex.main = 1.6)
+hist(medians, xlab = 'Median', ylab = 'Frequency', main = 'Monte Carlo Median', cex.axis = 1.5, cex.lab = 1.6, 
+     cex.main = 1.6)
+hist(ranges, xlab = 'Range', ylab = 'Frequency', main = 'Monte Carlo Range', cex.axis = 1.5, cex.lab = 1.6, cex.main = 1.6)
+```
+
+# Exercise
+
+## Question 1
+
+The approximation of π=3.1416 can be approximated by random sampling of a unit disc. By computing random points in a square and determining how many of these points are in the circle, a Monte Carlo simulation can be used to approximate π. This approximation relies on the ratio, p, of the area of the unit disc to the area of the square where the length of each side of the square is equal to the diameter of the unit circle. Hence, the estimation of π is as follows:
+
+\$\$𝜋 = 4p\$\$
+
+Perform the Monte Carlo simulation and see how the estimate for π improves with
+increasing n. Compute the deviation from the exact result, \|𝜋 − 𝜋̂\|. (Plot the
+estimates and the deviations)
+
+```{r}
+library(tidyverse)
+pai = function(a) {
+  estimates = 1:a
+  for (i in 1:a) {
+    x = runif(i, min = -1, max = 1)
+    y = runif(i, min = -1, max = 1)
+    points = data.frame(x,y)
+    df = points %>%
+      mutate(x2 = x ** 2) %>%
+      mutate(y2 = y ** 2) %>%
+      mutate(loc = (x2 + y2))
+    points_in_circle = length(df[df$loc <= 1,3])
+    p = points_in_circle/nrow(points)
+    pai = 4 * p
+    estimates[i] = pai
+  }
+  
+  df2 = data.frame(n = 1:a, pi = rep(3.1416, a), estimate = estimates)
+  df2 = df2 %>% mutate(deviation = abs(pi - estimate))
+  return(df2)
+}
+
+data = pai(1000)
+par(mfrow=c(1,2))
+plot(data$n, data$deviation)
+plot(data$n, data$estimate, col = 'blue');abline(h = 3.1416, col = 'red', lty = 'dashed')
+```
+
+## Question 2
+
+```{r}
+estimator = function(n) {
+  samp = rnorm(n)
+  s_mean = mean(samp)
+  s_20mean = mean(samp, trim=0.2)
+  s_med = median(samp)
+  results = c(s_mean, s_20mean, s_med)
+  names(results) = c('mean', 'trimmed', 'mediam')
+  return(results)
+}
+
+m = 1000
+n = 100
+mu = 3
+sd = 2
+
+x = matrix(rnorm(m*n), mu, sd, ncol = m)
+est = apply(x, MARGIN = 1, FUN = estimator)
+bias = abs(mu-est)
+rowMeans(est)
+rowMeans(bias)
+```
+
+## Question 3
+
+```{r}
+clt = function(m, n) {
+  x_norm = matrix(rnorm(m * n), nrow = m)
+  x_exp = matrix(rexp((m * n), rate = 1), nrow = m)
+  x_chisq = matrix(rchisq((m * n), df = n-1), nrow = m)
+  x_unif = matrix(runif(m * n), nrow = m)
+  
+  meansx1 = apply(x_norm, MARGIN = 1, FUN = mean)
+  meansx2 = apply(x_exp, MARGIN = 1, FUN = mean)
+  meansx3 = apply(x_chisq, MARGIN = 1, FUN = mean)
+  meansx4 = apply(x_unif, MARGIN = 1, FUN = mean)
+  
+  par(mfrow = c(2,2))
+  hist(meansx1, main = 'Normal')
+  hist(meansx2, main = 'Exponential')
+  hist(meansx3, main = 'Chi Square')
+  hist(meansx4, main = 'Uniform')
+  
+}
+
+clt(100, 1000)
+```
+
+```{r}
+hist(rexp(1000))
+```

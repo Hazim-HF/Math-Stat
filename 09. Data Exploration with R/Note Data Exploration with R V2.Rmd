@@ -1,0 +1,211 @@
+---
+title: "Data Exploration with R"
+author: "Hazim Fitri"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 6
+geometry: margin=0.5cm
+---
+
+# Import/Export Data
+
+## Import data into R
+
+### From text file
+
+```{r}
+read.table(file.choose, header = T, sep = '/t')
+```
+
+### From csv file
+
+```{r}
+read.csv(file.choose)
+```
+
+### From excel file
+
+```{r}
+library(readxl)
+read_excel(file.choose(), sheet = 'Sheet1')
+
+# To find out what sheets are available
+excel_sheets(file.choose())
+```
+
+### From clipboard
+
+```{r}
+read.table(file = 'clipboard', header = T, sep = '/t')
+```
+
+## Export data from R
+
+### Save to text file
+
+```{r}
+write.table(variable, file = 'Rclass.txt', col.names = T, row.names = F)
+```
+
+### Save to csv file
+
+```{r}
+write.csv(variable, file = 'Rclass.csv', col.names = T, row.names = F)
+```
+
+### Save to excel file
+
+```{r}
+library(writexl)
+write_xlsx(variable, 'Rclass.xlsx')
+```
+
+### Save to clipboard
+
+```{r}
+write.table(variable, col.names = T, row.names = F, file = 'clipboard', 
+            sep = '/t')
+```
+
+# Descriptive Statistics Using R
+
+## Central Tendency
+
+### Mean
+
+```{r}
+mean()
+rowMeans()
+colMeans()
+```
+
+### Median
+
+```{r}
+median()
+```
+
+### Mode
+
+```{r}
+x = c(1,2,2,2,3,4,5,6,7,8,8,9)
+temp = table(x)
+names(temp)[temp == max(temp)]
+```
+
+## Quartiles
+
+```{r}
+quantile(x)
+```
+
+## Variation
+
+### Range
+
+```{r}
+# Give 1 output(max - min)
+max(x) - min(x)
+
+# Give 2 outputs(min and max)
+range(x)
+```
+
+### Interquartile Range (IQR)
+
+```{r}
+IQR(x)
+```
+
+### Variance
+
+```{r}
+# Sample variance
+var(x)
+```
+
+### Standard Deviation
+
+```{r}
+#Sample standard deviation
+sd(x)
+```
+
+### Coefficient of Variation
+
+```{r}
+sd(x) / mean(x) * 100
+```
+
+## Shape
+
+### Skewness
+
+```{r}
+
+```
+
+### Kurtosis
+
+# Simple Data Wrangling with R
+
+## head, tail, which Function
+
+## subset, sort, order Function
+
+merge
+
+factor
+
+## table
+
+```{r}
+wfact <- cut(women$weight,breaks=3)
+wtab <- table(wfact)
+wtab
+```
+
+```{r}
+wfact <- cut(women$weight,breaks=3,labels=c("Low","Medium","High"))
+table(wfact)
+```
+
+```{r}
+wfact <- cut(women$weight,breaks=c(100,120,140,160,180))
+table(wfact)
+```
+
+## sapply, lapply
+
+```{r}
+data(rock)
+lapply(rock, FUN=mean) # same as colMeans but you'll be able to call each column like a data frame
+sapply(rock, FUN=mean) # exactly same as colMeans
+
+```
+
+## apply, do.call
+
+`do.call` allows you to call any R function, but instead of writing out the arguments one by one, you can use a list to hold the arguments of the function.
+
+```{r}
+do.call(rbind,lapply(rock,FUN=mean))
+```
+
+## is.na, na.omit
+
+## paste
+
+```{r}
+mine<-c("a","b","c")
+paste(mine,"!")
+paste(mine,1:3)
+paste0(mine,"!")
+paste(mine,1:3,sep=",")
+paste(mine,1:3,collapse=",")
+```
+
+# Exercise
+
+## Question 1

@@ -1,0 +1,574 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=0.5cm]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Programming with R},
+  pdfauthor={Hazim Fitri},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Programming with R}
+\author{Hazim Fitri}
+\date{2025-01-19}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{6}
+\tableofcontents
+}
+\section{if else Statement}\label{if-else-statement}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{=} \DecValTok{0}
+\ControlFlowTok{if}\NormalTok{ (x}\SpecialCharTok{\textgreater{}=}\DecValTok{0}\NormalTok{) \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x is positive\textquotesingle{}}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "x is positive"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{=} \SpecialCharTok{{-}}\DecValTok{5}
+\ControlFlowTok{if}\NormalTok{(x }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{) \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x is positive\textquotesingle{}}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"x is negative"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "x is negative"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{=} \DecValTok{0}
+\ControlFlowTok{if}\NormalTok{ (x }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x is positive\textquotesingle{}}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (x }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) \{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x is negative\textquotesingle{}}\NormalTok{)}
+\NormalTok{\} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (x }\SpecialCharTok{==} \DecValTok{0}\NormalTok{)\{}
+  \FunctionTok{print}\NormalTok{(}\StringTok{\textquotesingle{}x is zero\textquotesingle{}}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "x is zero"
+\end{verbatim}
+
+\section{ifelse Function}\label{ifelse-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\FunctionTok{ifelse}\NormalTok{(x }\SpecialCharTok{\textgreater{}=} \DecValTok{0}\NormalTok{, }\StringTok{\textquotesingle{}x is positive\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}x is negative\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "x is negative" "x is positive" "x is positive"
+\end{verbatim}
+
+\section{Switch Function}\label{switch-function}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{=} \DecValTok{3}
+\ControlFlowTok{switch}\NormalTok{(x, }\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "blue"
+\end{verbatim}
+
+\section{Loop}\label{loop}
+
+\subsection{For Loop}\label{for-loop}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{=} \DecValTok{1}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{) \{}
+\NormalTok{  x }\OtherTok{=}\NormalTok{ x }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{\}}
+\NormalTok{x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{) \{}
+\NormalTok{  x }\OtherTok{=}\NormalTok{ x }\SpecialCharTok{+} \DecValTok{2}
+\NormalTok{\}}
+\NormalTok{x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 12
+\end{verbatim}
+
+\subsection{While Loop}\label{while-loop}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{while}\NormalTok{ (x }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+\NormalTok{  x }\OtherTok{=}\NormalTok{ x }\SpecialCharTok{{-}} \DecValTok{5}
+\NormalTok{\}}
+\NormalTok{x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -3
+\end{verbatim}
+
+\subsection{Break Statement}\label{break-statement}
+
+Break statement will break the loop
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{=} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}
+\ControlFlowTok{for}\NormalTok{ (y }\ControlFlowTok{in}\NormalTok{ x) \{}
+  \ControlFlowTok{if}\NormalTok{ (y }\SpecialCharTok{==} \DecValTok{3}\NormalTok{) \{}
+    \ControlFlowTok{break}
+\NormalTok{  \}}
+  \FunctionTok{print}\NormalTok{(y)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+## [1] 2
+\end{verbatim}
+
+\subsection{Next Statement}\label{next-statement}
+
+Skip current iteration without breaking the loop
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{=} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}
+\ControlFlowTok{for}\NormalTok{ (y }\ControlFlowTok{in}\NormalTok{ x) \{}
+  \ControlFlowTok{if}\NormalTok{ (y }\SpecialCharTok{==} \DecValTok{3}\NormalTok{) \{}
+    \ControlFlowTok{next}
+\NormalTok{  \}}
+  \FunctionTok{print}\NormalTok{(y)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+## [1] 2
+## [1] 4
+## [1] 5
+\end{verbatim}
+
+\section{Function}\label{function}
+
+local environment -\textgreater{} value that only exist within a
+function
+
+global environment -\textgreater{} value that only exist outside a
+function
+
+return() function -\textgreater{} to pass value into global environment
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myfunction }\OtherTok{=} \ControlFlowTok{function}\NormalTok{ (x,y) \{}
+\NormalTok{  a }\OtherTok{=}\NormalTok{ x }\SpecialCharTok{+}\NormalTok{ y}
+  \FunctionTok{return}\NormalTok{(a)}
+\NormalTok{\}}
+
+\FunctionTok{myfunction}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{square.it }\OtherTok{=} \ControlFlowTok{function}\NormalTok{ (x) \{}
+\NormalTok{  b }\OtherTok{=}\NormalTok{ x }\SpecialCharTok{*}\NormalTok{ x}
+  \FunctionTok{return}\NormalTok{(b)}
+\NormalTok{\}}
+\FunctionTok{square.it}\NormalTok{(}\DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 64
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.fun}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(X.matrix, y.vec, z.scalar)\{}
+ \CommentTok{\#use previous function}
+\NormalTok{ sq.scalar}\OtherTok{\textless{}{-}}\FunctionTok{square.it}\NormalTok{(z.scalar)}
+\NormalTok{ mult}\OtherTok{\textless{}{-}}\NormalTok{X.matrix}\SpecialCharTok{\%*\%}\NormalTok{y.vec}
+\NormalTok{ Final}\OtherTok{\textless{}{-}}\NormalTok{mult}\SpecialCharTok{*}\NormalTok{sq.scalar}
+ \FunctionTok{return}\NormalTok{(Final)}
+\NormalTok{ \}}
+\NormalTok{ my.mat}\OtherTok{\textless{}{-}}\FunctionTok{cbind}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{),}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\NormalTok{ my.vec}\OtherTok{\textless{}{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{)}
+ \FunctionTok{my.fun}\NormalTok{(}\AttributeTok{X.matrix=}\NormalTok{my.mat, }\AttributeTok{y.vec=}\NormalTok{my.vec, }\AttributeTok{z.scalar=}\DecValTok{9}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1]
+## [1,] 1863
+## [2,] 2754
+## [3,] 3645
+\end{verbatim}
+
+\section{Exercise}\label{exercise}
+
+\subsection{Write a function that computes the coefficient of variation
+and plot the histogram of a
+vector}\label{write-a-function-that-computes-the-coefficient-of-variation-and-plot-the-histogram-of-a-vector}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mycoef }\OtherTok{=} \ControlFlowTok{function}\NormalTok{ (x) \{}
+\NormalTok{  z }\OtherTok{=} \FunctionTok{sd}\NormalTok{(x) }\SpecialCharTok{/} \FunctionTok{mean}\NormalTok{(x) }\SpecialCharTok{*} \DecValTok{100}
+  \FunctionTok{hist}\NormalTok{(x)}
+  \FunctionTok{return}\NormalTok{(z)}
+\NormalTok{\}}
+\NormalTok{j }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{)}
+\FunctionTok{mycoef}\NormalTok{(j)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Note-Programming-with-R_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\begin{verbatim}
+## [1] 54.77226
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Function to compute the coefficient of variation and plot histogram}
+\NormalTok{cv\_and\_histogram }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data) \{}
+  \CommentTok{\# Calculate the coefficient of variation}
+\NormalTok{  cv }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(data) }\SpecialCharTok{/} \FunctionTok{mean}\NormalTok{(data)}
+  
+  \CommentTok{\# Plot the histogram}
+  \FunctionTok{hist}\NormalTok{(data, }\AttributeTok{main =} \StringTok{"Histogram of Data"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Values"}\NormalTok{, }\AttributeTok{col =} \StringTok{"lightblue"}\NormalTok{, }\AttributeTok{border =} \StringTok{"black"}\NormalTok{)}
+  
+  \CommentTok{\# Return the coefficient of variation}
+  \FunctionTok{return}\NormalTok{(cv)}
+\NormalTok{\}}
+
+\CommentTok{\# Example usage}
+\NormalTok{data\_vector }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+
+\NormalTok{cv\_value }\OtherTok{\textless{}{-}} \FunctionTok{cv\_and\_histogram}\NormalTok{(data\_vector)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Note-Programming-with-R_files/figure-latex/blackbox_answer1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Coefficient of Variation:"}\NormalTok{, cv\_value))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Coefficient of Variation: 0.55048188256318"
+\end{verbatim}
+
+\subsection{Suppose a researcher obtained the coordinates of n points
+and wish to find the maximum distance between two points from all the
+different pairs of points possible, produce an R function which helps to
+find the maximum distance between the coordinates of one particular
+point, (𝑥𝑖, 𝑦𝑖), with the coordinates of the other (n--1) points. The
+distance, d, between coordinates of points i and j, can be calculated as
+follows:}\label{suppose-a-researcher-obtained-the-coordinates-of-n-points-and-wish-to-find-the-maximum-distance-between-two-points-from-all-the-different-pairs-of-points-possible-produce-an-r-function-which-helps-to-find-the-maximum-distance-between-the-coordinates-of-one-particular-point-ux1d465ux1d456-ux1d466ux1d456-with-the-coordinates-of-the-other-n1-points.-the-distance-d-between-coordinates-of-points-i-and-j-can-be-calculated-as-follows}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{distance }\OtherTok{=} \ControlFlowTok{function}\NormalTok{ (x1, y1, x2, y2) \{}
+\NormalTok{  d }\OtherTok{=} \FunctionTok{sqrt}\NormalTok{(((x1}\SpecialCharTok{{-}}\NormalTok{x2) }\SpecialCharTok{*}\NormalTok{ (x1}\SpecialCharTok{{-}}\NormalTok{x2)) }\SpecialCharTok{+}\NormalTok{ ((y1}\SpecialCharTok{{-}}\NormalTok{y2) }\SpecialCharTok{*}\NormalTok{ (y1}\SpecialCharTok{{-}}\NormalTok{y2)))}
+  \FunctionTok{return}\NormalTok{(d)}
+\NormalTok{\}}
+\FunctionTok{distance}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.828427
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Function to calculate the maximum distance}
+\NormalTok{max\_distance }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(points, point\_index) \{}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(points)}
+\NormalTok{  distances }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+  
+  \CommentTok{\# Get the coordinates of the reference point}
+\NormalTok{  ref\_point }\OtherTok{\textless{}{-}}\NormalTok{ points[point\_index, ]}
+  
+  \CommentTok{\# Loop through each point to calculate distance}
+\NormalTok{  count }\OtherTok{\textless{}{-}} \DecValTok{1}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n) \{}
+    \ControlFlowTok{if}\NormalTok{ (i }\SpecialCharTok{!=}\NormalTok{ point\_index) \{}
+\NormalTok{      x\_diff }\OtherTok{\textless{}{-}}\NormalTok{ points[i, }\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ ref\_point[}\DecValTok{1}\NormalTok{]}
+\NormalTok{      y\_diff }\OtherTok{\textless{}{-}}\NormalTok{ points[i, }\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ ref\_point[}\DecValTok{2}\NormalTok{]}
+\NormalTok{      distances[count] }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(x\_diff}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{+}\NormalTok{ y\_diff}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{      count }\OtherTok{\textless{}{-}}\NormalTok{ count }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  
+  \CommentTok{\# Return the maximum distance}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{max}\NormalTok{(distances))}
+\NormalTok{\}}
+
+\CommentTok{\# Example usage}
+\NormalTok{points }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{,}
+                   \DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{,}
+                   \DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{,}
+                   \DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{), }\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{)}
+
+\NormalTok{point\_index }\OtherTok{\textless{}{-}} \DecValTok{2}  \CommentTok{\# Example, getting the max distance for the second point}
+
+\NormalTok{max\_dist }\OtherTok{\textless{}{-}} \FunctionTok{max\_distance}\NormalTok{(points, point\_index)}
+
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Maximum Distance:"}\NormalTok{, max\_dist))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Maximum Distance: 5.65685424949238"
+\end{verbatim}
+
+\subsection{Mann-Kendall test is a statistical test used to determine
+the existence of monotonic trend in a data set
+X}\label{mann-kendall-test-is-a-statistical-test-used-to-determine-the-existence-of-monotonic-trend-in-a-data-set-x}
+
+\subsubsection{Write an R function that computes the test statistic,
+SMK, of the Mann-Kendall test for a data set X of size n which is given
+as
+follows:}\label{write-an-r-function-that-computes-the-test-statistic-smk-of-the-mann-kendall-test-for-a-data-set-x-of-size-n-which-is-given-as-follows}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\SpecialCharTok{{-}}\DecValTok{9}\NormalTok{,}\DecValTok{0}\NormalTok{)}
+\FunctionTok{sign}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  1  1  1  1 -1  0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Function to compute the Mann{-}Kendall test statistic}
+\NormalTok{mann\_kendall\_statistic }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(X) \{}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(X)  }\CommentTok{\# Size of the dataset}
+\NormalTok{  S }\OtherTok{\textless{}{-}} \DecValTok{0}          \CommentTok{\# Initialize the test statistic}
+  
+  \CommentTok{\# Loop through all pairs of observations}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)) \{}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in}\NormalTok{ (i }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{n) \{}
+      \ControlFlowTok{if}\NormalTok{ (X[j] }\SpecialCharTok{\textgreater{}}\NormalTok{ X[i]) \{}
+\NormalTok{        S }\OtherTok{\textless{}{-}}\NormalTok{ S }\SpecialCharTok{+} \DecValTok{1}  \CommentTok{\# Count the number of increasing pairs}
+\NormalTok{      \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (X[j] }\SpecialCharTok{\textless{}}\NormalTok{ X[i]) \{}
+\NormalTok{        S }\OtherTok{\textless{}{-}}\NormalTok{ S }\SpecialCharTok{{-}} \DecValTok{1}  \CommentTok{\# Count the number of decreasing pairs}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  
+  \FunctionTok{return}\NormalTok{(S)  }\CommentTok{\# Return the test statistic}
+\NormalTok{\}}
+
+\CommentTok{\# Example usage}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{6}\NormalTok{)}
+\NormalTok{S }\OtherTok{\textless{}{-}} \FunctionTok{mann\_kendall\_statistic}\NormalTok{(data)}
+\FunctionTok{print}\NormalTok{(S)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 11
+\end{verbatim}
+
+\subsubsection{If X is a series with no tie values, then the
+standardized test statistic, ZMK, is written
+as}\label{if-x-is-a-series-with-no-tie-values-then-the-standardized-test-statistic-zmk-is-written-as}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Function to compute the Mann{-}Kendall test statistic and standardized statistic, ZMK}
+\NormalTok{mann\_kendall\_test }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(X) \{}
+\NormalTok{  n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(X)}
+\NormalTok{  S }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+  \CommentTok{\# Loop to calculate the test statistic}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{(n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)) \{}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in}\NormalTok{ (i }\SpecialCharTok{+} \DecValTok{1}\NormalTok{)}\SpecialCharTok{:}\NormalTok{n) \{}
+\NormalTok{      S }\OtherTok{\textless{}{-}}\NormalTok{ S }\SpecialCharTok{+} \FunctionTok{sign}\NormalTok{(X[j] }\SpecialCharTok{{-}}\NormalTok{ X[i])}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  
+  \CommentTok{\# Adjusting the variance of S}
+\NormalTok{  var\_S }\OtherTok{\textless{}{-}}\NormalTok{ (n }\SpecialCharTok{*}\NormalTok{ (n }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{2} \SpecialCharTok{*}\NormalTok{ n }\SpecialCharTok{+} \DecValTok{5}\NormalTok{)) }\SpecialCharTok{/} \DecValTok{18}
+  
+  \CommentTok{\# Computing the standardized test statistic, ZMK}
+  \ControlFlowTok{if}\NormalTok{ (S }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+\NormalTok{    ZMK }\OtherTok{\textless{}{-}}\NormalTok{ (S }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sqrt}\NormalTok{(var\_S)}
+\NormalTok{  \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (S }\SpecialCharTok{\textless{}} \DecValTok{0}\NormalTok{) \{}
+\NormalTok{    ZMK }\OtherTok{\textless{}{-}}\NormalTok{ (S }\SpecialCharTok{+} \DecValTok{1}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sqrt}\NormalTok{(var\_S)}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    ZMK }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{  \}}
+  
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{SMK =}\NormalTok{ S, }\AttributeTok{ZMK =}\NormalTok{ ZMK))}
+\NormalTok{\}}
+
+\CommentTok{\# Example usage}
+\NormalTok{data\_set\_X }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{mann\_kendall\_test}\NormalTok{(data\_set\_X)}
+
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Mann{-}Kendall Test Statistic (SMK):"}\NormalTok{, result}\SpecialCharTok{$}\NormalTok{SMK))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Mann-Kendall Test Statistic (SMK): 12"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Standardized Test Statistic (ZMK):"}\NormalTok{, result}\SpecialCharTok{$}\NormalTok{ZMK))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Standardized Test Statistic (ZMK): 0.983869910099907"
+\end{verbatim}
+
+\end{document}

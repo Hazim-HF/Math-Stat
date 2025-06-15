@@ -1,0 +1,47 @@
+---
+title: "Real Estate"
+output: pdf_document
+---
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+data = read.csv('Real estate valuation data set.csv')
+```
+
+```{r}
+str(data)
+summary(data)
+```
+
+```{r}
+df = data %>% 
+  select(-transaction.date, -latitude, -longitude)
+pairs(df)
+```
+
+```{r}
+model = lm(house.price.of.unit.area ~ house.age + distance.to.the.nearest.MRT.station + number.of.convenience.stores, data = data)
+
+summary(model)
+```
+
+```{r}
+qqnorm(model$residuals)
+qqline(model$residuals)
+```
+
+```{r}
+hist(model$residuals)
+```
+
+```{r}
+plot(model$fitted.values, model$residuals)
+abline(0,0)
+```
+
+```{r}
+plot(model)
+```
